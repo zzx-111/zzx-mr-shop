@@ -58,7 +58,8 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         categoryBrandExample.createCriteria().andEqualTo("categoryId",id);
         List<CategoryBrandEntity> categoryBrandList = categoryBrandMapper.selectByExample(categoryBrandExample);
 
-        if(categoryBrandList.size()>1) return this.setResultError("当前分类下有品牌无法被删除");
+
+        if(categoryBrandList.size()>0) return this.setResultError("当前分类下有品牌无法被删除");
         //根据当前id查询出当前数据
         CategoryEntity categoryEntity = categoryMapper.selectByPrimaryKey(id);
         if(ObjectEqUtil.isNull(categoryEntity)){
