@@ -1,7 +1,7 @@
 package com.baidu.shop.service;
 
 import com.baidu.shop.base.Result;
-import com.baidu.shop.entity.BrandDTO;
+import com.baidu.shop.dto.BrandDTO;
 import com.baidu.shop.entity.BrandEntity;
 import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;

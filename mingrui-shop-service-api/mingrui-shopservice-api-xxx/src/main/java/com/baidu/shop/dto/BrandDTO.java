@@ -1,6 +1,5 @@
-package com.baidu.shop.entity;
+package com.baidu.shop.dto;
 
-import com.baidu.shop.dto.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
