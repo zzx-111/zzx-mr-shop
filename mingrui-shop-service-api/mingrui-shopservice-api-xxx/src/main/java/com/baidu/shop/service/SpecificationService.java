@@ -25,7 +25,7 @@ public interface SpecificationService   {
 
     @ApiOperation(value = "规格修改")
     @PutMapping("/spec/save")
-    Result<JsonObject>  editSpec(@RequestBody SpecGroupDTO specGroupDTO);
+    Result<JsonObject>  editSpec( @RequestBody SpecGroupDTO specGroupDTO);
 
     @ApiOperation(value = "规格列表查询")
     @DeleteMapping("/spec/delete")
