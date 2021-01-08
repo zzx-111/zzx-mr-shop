@@ -1,8 +1,12 @@
 package com.baidu.shop.dto;
 
+import com.baidu.shop.validate.group.MingruiOperation;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * 2 * @ClassName BrandEntity
@@ -17,8 +21,10 @@ import lombok.Data;
 @Data
 public class BrandDTO  extends BaseDTO {
     @ApiModelProperty(value = "品牌管理id")
+    @NotNull(groups = {MingruiOperation.update.class},message = "品牌id不能为空")
     private Integer id;
     @ApiModelProperty(value = "品牌管理名称")
+    @NotEmpty(groups = {MingruiOperation.update.class,MingruiOperation.add.class},message = "品牌管理名称不能为空")
     private String name;
     @ApiModelProperty(value = "品牌管理图片")
     private String image;

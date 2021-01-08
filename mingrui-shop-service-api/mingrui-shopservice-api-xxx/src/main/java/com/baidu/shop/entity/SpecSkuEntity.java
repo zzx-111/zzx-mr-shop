@@ -9,39 +9,35 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * 2 * @ClassName GoodsEntity
+ * 2 * @ClassName SpecSkuEntity
  * 3 * @Description: TODO
  * 4 * @Author zzx
- * 5 * @Date 2021/1/5
+ * 5 * @Date 2021/1/7
  * 6 * @Version V1.0
  * 7
  **/
-@Table(name = "tb_spu")
+@Table(name ="tb_sku")
 @Data
-public class GoodsEntity {
+public class SpecSkuEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    private Integer spuId;
 
     private String title;
 
-    private String subTitle;
+    private String images;
 
+    private Integer price;
 
-    private Integer cid1;
+    private  String indexes;
 
-    private Integer cid2;
+    private String ownSpec;
 
-    private Integer cid3;
+    private Boolean enable;
 
-    private Integer brandId;
-
-    private Integer saleable;
-
-    private Integer valid;
-
-    private Date createTime;
+    private Date  createTime;
 
     private Date lastUpdateTime;
 }
