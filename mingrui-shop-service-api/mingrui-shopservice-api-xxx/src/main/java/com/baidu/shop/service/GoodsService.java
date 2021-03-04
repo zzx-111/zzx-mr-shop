@@ -4,11 +4,11 @@ import com.baidu.shop.base.Result;
 import com.baidu.shop.dto.GoodsDTO;
 import com.baidu.shop.dto.SpecDetailDTO;
 import com.baidu.shop.dto.SpecSkuDTO;
-import com.baidu.shop.entity.GoodsEntity;
 import com.baidu.shop.validate.group.MingruiOperation;
 import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,7 @@ public interface GoodsService {
 
     @ApiOperation(value = "获取商品列表")
     @GetMapping("goods/list")
-    Result<List<GoodsEntity>> getGoodsList(GoodsDTO goodsDTO);
+    Result<List<GoodsDTO>> getGoodsList(@SpringQueryMap GoodsDTO goodsDTO);
 
     @ApiOperation(value = "新增商品")
     @PostMapping("goods/save")
@@ -53,5 +53,5 @@ public interface GoodsService {
 
     @GetMapping("/goods/spu/getSku")
     @ApiOperation(value = "通过spuId查询sku参数")
-    Result<List<SpecSkuDTO>> getSkuBySpu(Integer spuId);
+    Result<List<SpecSkuDTO>> getSkuBySpu(@RequestParam Integer spuId);
 }

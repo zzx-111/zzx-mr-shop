@@ -10,7 +10,9 @@
         <module name="mingrui-shop-basiczuul-server" />
         <module name="mingrui-shop-common-core" />
         <module name="mingrui-shop-basic-eureka-server" />
+        <module name="mingrui-shop-service-api-search" />
         <module name="mingrui-shopservice-api-xxx" />
+        <module name="mingrui-shop-service-search" />
         <module name="mingrui-shop-baisc-upload-server" />
         <module name="mingrui-shop-servicexxx" />
       </profile>
@@ -27,6 +29,8 @@
       <module name="mingrui-shop-common-core" options="-parameters" />
       <module name="mingrui-shop-service" options="-parameters" />
       <module name="mingrui-shop-service-api" options="" />
+      <module name="mingrui-shop-service-api-search" options="-parameters" />
+      <module name="mingrui-shop-service-search" options="-parameters" />
       <module name="mingrui-shop-servicexxx" options="-parameters" />
       <module name="mingrui-shopservice-api-xxx" options="-parameters" />
     </option>

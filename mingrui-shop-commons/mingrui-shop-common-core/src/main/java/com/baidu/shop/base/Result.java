@@ -1,5 +1,6 @@
 package com.baidu.shop.base;
 
+import com.baidu.shop.status.HTTPStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,5 +25,9 @@ public class Result<T> {
         this.code = code;
         this.message = message;
         this.data = (T) data;
+    }
+
+    public  Boolean isStartsSuccess(){
+        return code== HTTPStatus.OK;
     }
 }

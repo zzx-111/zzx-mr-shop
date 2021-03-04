@@ -59,7 +59,7 @@ public class SpecificationServiceImpl extends BaseApiService implements Specific
         SpecGroupEntity specGroupEntity = TenXunBeanUtil.copyProperties(specGroupDTO, SpecGroupEntity.class);
         System.out.println(specGroupEntity);
         specGroupMapper.updateByPrimaryKeySelective(specGroupEntity);
-        return this.setResultSuccess();
+        return this.setResultSuccess(Integer.parseInt(specGroupDTO.getName().trim()));
     }
     //分组删除
     @Override
@@ -75,7 +75,7 @@ public class SpecificationServiceImpl extends BaseApiService implements Specific
     }
     //规格参数查询列表
     @Override
-    public Result<List<SpecGroupEntity>> getSpecParamList(SpecParamDTO specParamDTO) {
+    public Result<List<SpectParamEntity>> getSpecParamList(SpecParamDTO specParamDTO) {
 
         Example example = new Example(SpectParamEntity.class);
         Example.Criteria criteria = example.createCriteria();

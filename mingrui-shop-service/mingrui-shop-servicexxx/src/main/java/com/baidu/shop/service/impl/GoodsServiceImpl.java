@@ -56,7 +56,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
 
 
     @Override
-    public Result<List<GoodsEntity>> getGoodsList(GoodsDTO goodsDTO) {
+    public Result<List<GoodsDTO>> getGoodsList(GoodsDTO goodsDTO) {
 
         //判断分页参数是否正确
         if(ObjectEqUtil.isNull(goodsDTO.getPage())|| ObjectEqUtil.isNull(goodsDTO.getRows())) return this.setResultError("分页参数错误");
@@ -70,7 +70,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
         if(ObjectEqUtil.isNotNull(goodsDTO.getSaleable()) && goodsDTO.getSaleable() <2){
             criteria.andEqualTo("saleable",goodsDTO.getSaleable());
         }
-        if(StringUtils.isEmpty(goodsDTO.getTitle())){
+        if(!StringUtils.isEmpty(goodsDTO.getTitle())){
             criteria.andLike("title","%"+goodsDTO.getTitle()+"%");
         }
 
