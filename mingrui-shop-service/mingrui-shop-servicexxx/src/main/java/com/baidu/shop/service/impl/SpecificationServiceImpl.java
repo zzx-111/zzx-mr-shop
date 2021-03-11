@@ -85,6 +85,9 @@ public class SpecificationServiceImpl extends BaseApiService implements Specific
         if(ObjectEqUtil.isNotNull(specParamDTO.getCid())){
             criteria.andEqualTo("cid",TenXunBeanUtil.copyProperties(specParamDTO,SpectParamEntity.class).getCid());
         }
+        if(ObjectEqUtil.isNotNull(specParamDTO.getGeneric())){
+            criteria.andEqualTo("generic",specParamDTO.getGeneric());
+        }
 
         List<SpectParamEntity> list = specParamMapper.selectByExample(example);
         return this.setResultSuccess(list);

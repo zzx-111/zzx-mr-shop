@@ -14,6 +14,8 @@
     <modules>
         <module>mingrui-shopservice-api-xxx</module>
         <module>mingrui-shop-service-api-search</module>
+        <module>mingrui-shop-service-template-api</module>
+        <module>mingrui-shop-service-api-user</module>
     </modules>
     <dependencies>
 
@@ -45,7 +47,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-openfeign</artifactId>
             </dependency>
-
 
         </dependencies>
 

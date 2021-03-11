@@ -49,11 +49,11 @@ public class GoodsDTO  extends  BaseDTO{
     private Integer brandId;
 
     @ApiModelProperty(value = "是否上架，0下架，1上架")
-    @NotNull(groups = {MingruiOperation.update.class,MingruiOperation.add.class},message = "saleable不能为空")
+    @NotNull(groups = {MingruiOperation.update.class},message = "saleable不能为空")
     private Integer saleable;
 
     @ApiModelProperty(value = "是否有效，0已删除，1有效")
-    @NotNull(groups = {MingruiOperation.update.class,MingruiOperation.add.class},message = "valid不能为空")
+    @NotNull(groups = {MingruiOperation.update.class},message = "valid不能为空")
     private Integer valid;
 
     @ApiModelProperty(value = "添加时间")

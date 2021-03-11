@@ -41,9 +41,12 @@ public class BrandServiceImpl extends BaseApiService implements BrandService {
     private CategoryBrandMapper categoryBrandMapper;
 
     @Override
-    public Result<List<BrandEntity>> getBrandList(BrandDTO brandDTO) {
+    public Result<PageInfo<BrandEntity>> getBrandList(BrandDTO brandDTO) {
         //分页
-        PageHelper.startPage(brandDTO.getPage(),brandDTO.getRows());
+        if(ObjectEqUtil.isNotNull(brandDTO.getPage())&&ObjectEqUtil.isNotNull(brandDTO.getRows())){
+            PageHelper.startPage(brandDTO.getPage(),brandDTO.getRows());
+        }
+
         //根据 sort字段判断是否需要排序.
         if(!StringUtils.isEmpty(brandDTO.getSort())){
             PageHelper.orderBy(brandDTO.getSort()+"  "+(Boolean.valueOf(brandDTO.getOrder())?"desc":"asc"));
@@ -51,9 +54,17 @@ public class BrandServiceImpl extends BaseApiService implements BrandService {
 
         //模糊查询
         Example example = new Example(BrandEntity.class);
+        Example.Criteria criteria = example.createCriteria();
 
         //BeanUtils.copyProperties(目标对象,要复制的对象);
-        example.createCriteria().andLike("name","%"+brandDTO.getName()+"%");
+        if(ObjectEqUtil.isNotNull(brandDTO.getName())){
+            criteria.andLike("name","%"+brandDTO.getName()+"%");
+        }
+        if(ObjectEqUtil.isNotNull(brandDTO.getId())){
+            criteria.andEqualTo("id",brandDTO.getId());
+
+        }
+
         //查询所有数据
         List<BrandEntity> list = brandMapper.selectByExample(example);
         //分页总条数
@@ -109,6 +120,15 @@ public class BrandServiceImpl extends BaseApiService implements BrandService {
     public Result<List<BrandEntity>> getBrandNameByCid(Integer cid) {
         List<BrandEntity> list=brandMapper.getBrandNameByCid(cid);
         return this.setResultSuccess(list);
+    }
+
+    @Override
+    public Result<List<BrandEntity>> getBrandListById(String join) {
+        List<Integer> collect = Arrays.asList(join.split(",")).stream().map(id -> {
+            return Integer.parseInt(id);
+        }).collect(Collectors.toList());
+        List<BrandEntity> brandEntities = brandMapper.selectByIdList(collect);
+        return this.setResultSuccess(brandEntities);
     }
 
     private void deleteCategoryBrandByBrandId(Integer id){

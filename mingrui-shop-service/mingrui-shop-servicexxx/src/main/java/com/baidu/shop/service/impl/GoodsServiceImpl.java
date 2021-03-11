@@ -2,6 +2,8 @@ package com.baidu.shop.service.impl;
 
 import com.baidu.shop.base.BaseApiService;
 import com.baidu.shop.base.Result;
+import com.baidu.shop.component.BaiduMqUtil;
+import com.baidu.shop.constant.BaiduMessageConstant;
 import com.baidu.shop.dto.GoodsDTO;
 import com.baidu.shop.dto.SpecDetailDTO;
 import com.baidu.shop.dto.SpecSkuDTO;
@@ -14,6 +16,7 @@ import com.baidu.shop.utils.TenXunBeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,16 +57,22 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     @Resource
     private  SpecDetailMapper specDetailMapper;
 
+    @Autowired
+    private BaiduMqUtil baiduMqUtil;
+
 
     @Override
     public Result<List<GoodsDTO>> getGoodsList(GoodsDTO goodsDTO) {
 
         //判断分页参数是否正确
-        if(ObjectEqUtil.isNull(goodsDTO.getPage())|| ObjectEqUtil.isNull(goodsDTO.getRows())) return this.setResultError("分页参数错误");
-        PageHelper.startPage(goodsDTO.getPage(),goodsDTO.getRows());
+        if(!ObjectEqUtil.isNull(goodsDTO.getPage())&& !ObjectEqUtil.isNull(goodsDTO.getRows())) {
+            PageHelper.startPage(goodsDTO.getPage(),goodsDTO.getRows());
+        }
+
         if(!StringUtils.isEmpty(goodsDTO.getSort()) && !StringUtils.isEmpty(goodsDTO.getOrder())){
                 PageHelper.orderBy(goodsDTO.getSort()+"  "+(Boolean.valueOf(goodsDTO.getOrder())?"desc":"asc"));
         }
+
         //创建example对象进行条件查询
         Example example = new Example(GoodsEntity.class);
         Example.Criteria criteria = example.createCriteria();
@@ -72,6 +81,9 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
         }
         if(!StringUtils.isEmpty(goodsDTO.getTitle())){
             criteria.andLike("title","%"+goodsDTO.getTitle()+"%");
+        }
+        if(ObjectEqUtil.isNotNull(goodsDTO.getId())&&goodsDTO.getId()!=0){
+            criteria.andEqualTo("id",goodsDTO.getId());
         }
 
 
@@ -99,8 +111,15 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     }
 
     @Override
-    @Transactional
     public Result<JsonObject> saveGoods(GoodsDTO goodsDTO) {
+        Integer spuId = this.saveGoodsTransactional(goodsDTO);
+        this.baiduMqUtil.send(spuId+"", BaiduMessageConstant.SPU_ROUT_KEY_SAVE);
+
+        return this.setResultSuccess();
+    }
+
+
+    public Integer saveGoodsTransactional(GoodsDTO goodsDTO){
 
         final Date date = new Date();
         GoodsEntity spuEntity = TenXunBeanUtil.copyProperties(goodsDTO, GoodsEntity.class);
@@ -115,7 +134,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
         SpecDetailDTO specDetailDTO = goodsDTO.getSpuDetail();
         SpecDetailEntity specDetailEntity = TenXunBeanUtil.copyProperties(specDetailDTO, SpecDetailEntity.class);
         specDetailEntity.setSpuId(spuEntity.getId());
-            //新增detail
+        //新增detail
         specDetailMapper.insertSelective(specDetailEntity);
 
 
@@ -133,20 +152,27 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
             //新增stock
             specStockMapper.insertSelective(specStockEntity);
         });
+        return spuEntity.getId();
+    }
 
+
+
+    @Override
+   // @Transactional
+    public Result<JsonObject> deleteGoods(Integer spuId) {
+        this.deleteTransactional(spuId);
+        this.baiduMqUtil.send(spuId+"", BaiduMessageConstant.SPU_ROUT_KEY_DELETE);
         return this.setResultSuccess();
     }
 
-    @Override
     @Transactional
-    public Result<JsonObject> deleteGoods(Integer spuId) {
+    public  void deleteTransactional(Integer spuId){
         //根据id删除spu数据
         goodsMapper.deleteByPrimaryKey(spuId);
         //根据spuId删除detail数据
         specDetailMapper.deleteByPrimaryKey(spuId);
         //根据spuId查询出skuId通过skuId删除sku信息和stock信息
         deleteSkuAndStockBySpuId(spuId);
-        return this.setResultSuccess();
     }
 
     @Override
@@ -164,7 +190,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
         deleteSkuAndStockBySpuId(goodsDTO.getId());
         //通过前台传来的数据新增sku列表以及库存
         saveSkuAndStockFunction(goodsDTO,goodsDTO.getId(),date);
-
+        this.baiduMqUtil.send(goodsEntity.getId()+"", BaiduMessageConstant.SPU_ROUT_KEY_UPDATE);
         return this.setResultSuccess();
     }
 

@@ -1,11 +1,13 @@
 package com.baidu.shop.dto;
 
+import com.baidu.shop.entity.SpectParamEntity;
 import com.baidu.shop.validate.group.MingruiOperation;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 2 * @ClassName SpecGroupEntity
@@ -29,4 +31,7 @@ public class SpecGroupDTO extends BaseDTO {
     @NotNull(message = "当前name不能为空" ,groups = {MingruiOperation.update.class,MingruiOperation.add.class} )
     @ApiModelProperty(value ="规格分组名称")
     private String name;
+
+
+    private List<SpectParamEntity> specList;
 }

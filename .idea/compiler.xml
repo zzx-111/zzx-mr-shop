@@ -7,18 +7,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="mingrui-shop-basiczuul-server" />
         <module name="mingrui-shop-common-core" />
         <module name="mingrui-shop-basic-eureka-server" />
         <module name="mingrui-shop-service-api-search" />
         <module name="mingrui-shopservice-api-xxx" />
-        <module name="mingrui-shop-service-search" />
-        <module name="mingrui-shop-baisc-upload-server" />
+        <module name="mingrui-shop-service-template-api" />
+        <module name="mingrui-shop-service-api-user" />
+        <module name="mingrui-shop-service-template" />
         <module name="mingrui-shop-servicexxx" />
+        <module name="mingrui-shop-service-search" />
+        <module name="mingrui-shop-service-user" />
+        <module name="mingrui-shop-baisc-upload-server" />
+        <module name="mingrui-shop-basiczuul-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="mingrui-shop-service" target="1.8" />
+      <module name="mingrui-shop-service-api-template" target="1.8" />
+      <module name="mingrui-shop-template" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -30,8 +36,14 @@
       <module name="mingrui-shop-service" options="-parameters" />
       <module name="mingrui-shop-service-api" options="" />
       <module name="mingrui-shop-service-api-search" options="-parameters" />
+      <module name="mingrui-shop-service-api-template" options="-parameters" />
+      <module name="mingrui-shop-service-api-user" options="-parameters" />
       <module name="mingrui-shop-service-search" options="-parameters" />
+      <module name="mingrui-shop-service-template" options="-parameters" />
+      <module name="mingrui-shop-service-template-api" options="-parameters" />
+      <module name="mingrui-shop-service-user" options="-parameters" />
       <module name="mingrui-shop-servicexxx" options="-parameters" />
+      <module name="mingrui-shop-template" options="-parameters" />
       <module name="mingrui-shopservice-api-xxx" options="-parameters" />
     </option>
   </component>

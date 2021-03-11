@@ -49,7 +49,7 @@ public interface GoodsService {
 
     @ApiOperation(value="通过spuId查询detail数据")
     @GetMapping("/goods/spu/detail")
-    Result<SpecDetailDTO> getSpecDetailBySpuId(Integer spuId);
+    Result<SpecDetailDTO> getSpecDetailBySpuId(@RequestParam Integer spuId);
 
     @GetMapping("/goods/spu/getSku")
     @ApiOperation(value = "通过spuId查询sku参数")
